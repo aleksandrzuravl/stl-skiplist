@@ -12,13 +12,15 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libgtest-dev
+        sudo apt-get install -y build-essential libgtest-dev cmake
+        cd /usr/src/gtest
+        sudo cmake .
+        sudo make
+        sudo cp lib/*.a /usr/lib
         
-    - name: Build project
-      run: make CXXFLAGS="-std=c++17 -Wall -Wextra -O3 -I."
-      
-    - name: Run tests
-      run: make test
-      
+    - name: Build and run tests
+      run: |
+        make test
+        
     - name: Clean up
       run: make clean
